@@ -6,6 +6,7 @@ let classList = [
     { code: "IT121", name: "Javascript 1" }
 ];
 let output = '';
+const codepattern = /^[A-Za-z]{2,3}\d{3}$/;
 
 is_running = true;
 
@@ -22,11 +23,30 @@ while (is_running) {
 
         case 2: //add
             // ADD IT211 - Object Oriented Program W/Java
-            let new_class = prompt("Please add the name of the new class in the format 'AA111 - Name of Your Class'");
-            new_class = new_class.split("-");
+            let new_class_code;
+            while (true) {
+                new_class_code = prompt("Please add the code of the new class in the format 'AAA111'");
+                if (codepattern.test(new_class_code)) {
+                    break;
+                } else {
+                    alert("Invalid input. Expected: 'AAA111' OR 'AA111'. Try again");
+                }
+            }
+
+            let new_class_name;
+            while (true) {
+                new_class_name = prompt("Please add the name of the new class: ");
+
+                if (new_class_name.trim() !== "") {
+                    break;
+                } else {
+                    alert("Invalid input. The input cannot be empty. Please try again.");
+                }
+            }
+
             let new_class_obj = {
-                code: new_class[0],
-                name: new_class[1]
+                code: new_class_code,
+                name: new_class_name
             }
             classList.push(new_class_obj);
             alert("New class was successfully added.");
@@ -57,7 +77,12 @@ while (is_running) {
             break;
 
         case 4: //exit
-            alert("Thank you for using this tool.");
+            alert("Thank you for using this tool. This is the list of your classses ->");
+            output = '';
+            for (let i = 0; i < classList.length; i++) {
+                output += i + 1 + ". " + classList[i].code + " - " + classList[i].name + "\n";
+            }
+            alert(output);
             is_running = false;
             break;
 
