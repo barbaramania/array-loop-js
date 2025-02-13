@@ -83,14 +83,14 @@ function main() {
                 removeClass();
                 break;
             case 4:
-                alert("Thank you for using this tool. Here is your final list:");
-                viewClasses();
+                alert("Thank you for using this tool.");
                 is_running = false;
                 break;
             default:
                 alert("Sorry, I can't find this option.");
         }
     }
+    document.getElementById("output").innerHTML = "Final Class List:<br>" + (classList.map((item, index) => `${index + 1}. ${item.code} - ${item.name} - ${item.startingDate}`).join("<br>") || "No classes available.");
 }
 
 main();
