@@ -1,5 +1,4 @@
-const options = "Hi. Choose an option:\n1. View all items (tasks, contacts, etc.)\n2. Add a new item.\n3. Remove an item.\n4. Exit the program.";
-const codepattern = /^[A-Za-z]{2,3}\d{3}$/;
+const options = "Hi. Choose an option:\n1. View all classes.\n2. Add a new class.\n3. Remove aclass.\n4. Exit the program.";
 
 let classList = [
     { code: "BTM100", name: "Orient. & Career Exploration", startingDate: "01/01/2025" },
@@ -14,16 +13,12 @@ function classObject(code, name, startingDate) {
     this.startingDate = startingDate;
 }
 
+const codepattern = /^[A-Za-z]{2,3}\d{3}$/;
+const datePattern = /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/;
+
 function viewClasses() {
-    if (classList.length === 0) {
-        alert("No classes available.");
-        return;
-    }
-    let output = "List of classes:\n";
-    for (let i = 0; i < classList.length; i++) {
-        output += `${i + 1}. ${classList[i].code} - ${classList[i].name}\n`;
-    }
-    alert(output);
+    let output = classList.map((item, index) => `${index + 1}. ${item.code} - ${item.name} (Start Date: ${item.startingDate})`).join("\n");
+    alert(output || "No classes available.");
 }
 
 function addClass() {
@@ -41,7 +36,14 @@ function addClass() {
         alert("Invalid input. The input cannot be empty. Please try again.");
     }
 
-    classList.push(new classObject(new_class_code, new_class_name, "01/01/2025"));
+    let new_starting_date;
+    while (true) {
+        new_starting_date = prompt("Please enter the starting date in MM/DD/YYYY format:");
+        if (datePattern.test(new_starting_date)) break;
+        alert("Invalid date format. Please enter in MM/DD/YYYY format.");
+    }
+
+    classList.push(new classObject(new_class_code, new_class_name, new_starting_date));
     alert("New class was successfully added.");
 }
 
@@ -68,7 +70,6 @@ function removeClass() {
 
 function main() {
     let is_running = true;
-
     while (is_running) {
         let option = Number(prompt(options));
         switch (option) {
